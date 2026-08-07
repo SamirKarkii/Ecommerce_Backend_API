@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import permissions,status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer,ProfileSerializer
 
 class RegisterView(APIView): 
     permission_classes = [permissions.AllowAny]
@@ -12,3 +12,10 @@ class RegisterView(APIView):
         serializer.save()
 
         return Response( serializer.data,status=status.HTTP_201_CREATED,)
+
+class ProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = ProfileSerializer(request.user)
+        return Response(serializer.data)

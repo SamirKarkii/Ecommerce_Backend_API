@@ -13,4 +13,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop("password") #removes  password form dictionary, and sotes its value in a seperate variable named password. 
-        return User.objects.create_user(**validated_data)
+        return User.objects.create_user(password=password, **validated_data)
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "email", "first_name", "last_name"]
