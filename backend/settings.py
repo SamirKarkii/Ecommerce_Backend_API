@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "users.apps.UsersConfig",
     "products.apps.ProductsConfig",
-  
+    "cart.apps.CartConfig"  
 ]
 AUTH_USER_MODEL = "users.User"
 
