@@ -24,8 +24,8 @@ class CartView(APIView):
         if not created:
             cart_item.quantity += quantity
             cart_item.save()
-            output_serializer = CartItemSerializer(cart_item)
-            return Response(
+        output_serializer = CartItemSerializer(cart_item)
+        return Response(
         output_serializer.data,
          status=status.HTTP_201_CREATED if created else status.HTTP_200_OK
     )
