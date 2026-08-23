@@ -22,7 +22,7 @@ class CartView(APIView):
         quantity = serializer.validated_data["quantity"]
         cart_item,created = CartItem.objects.get_or_create(cart=cart,product=product,defaults={"quantity":quantity})
         if not created:
-            cart_item.quantity += quantity
+            cart_item.quantity += quantity 
             cart_item.save()
         output_serializer = CartItemSerializer(cart_item)
         return Response(

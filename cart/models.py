@@ -16,7 +16,7 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
 
-    class Meta:   #UNIQUE (cart_id, product_id)
+    class Meta:   #UNIQUE (cart_id, product_id) #It does not create a second cart item because you also have this database rule
         constraints = [
         models.UniqueConstraint(
             fields=["cart", "product"],
