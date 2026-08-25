@@ -13,6 +13,12 @@ class CartView(APIView):
         cart,_ = Cart.objects.get_or_create(user=request.user) #try cart else create cart 
         serializer = CartSerializer(cart)
         return Response(serializer.data)
+    
+    #TODO: Add cart-level stock validation.
+   # Current behavior allows cart quantity to exceed product stock.
+   # Checkout still prevents overselling with stock validation + row locking.
+   # Revisit after Docker.
+
     def post(self, request): 
         cart, _ = Cart.objects.get_or_create(user=request.user) #ik this creates or gets the existing cart 
         serializer = CartItemSerializer(data=request.data)

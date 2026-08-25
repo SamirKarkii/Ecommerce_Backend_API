@@ -78,21 +78,20 @@ class OrderView(APIView):
                  locked_items.append((cart_item, product))
 
                  #if every thing pass , then create order 
-                 order = Order.objects.create(user=request.user)
-                 total = 0
+             order = Order.objects.create(user=request.user)
+             total = 0
+             for cart_item,product in locked_items:
+                 OrderItem.objects.create(order=order,product=product, product_name=product.name,unit_price=product.price,quantity=cart_item.quantity)
+                 total += product.price * cart_item.quantity
+                 product.stock -= cart_item.quantity
+                 product.save()
 
-                 for cart_item,product in locked_items:
-                     OrderItem.objects.create(order=order,product=product, product_name=product.name,unit_price=product.price,quantity=cart_item.quantity)
-                     total += product.price * cart_item.quantity
-                     product.stock -= cart_item.quantity
-                     product.save()
+             order.total_amount = total
+             order.save()
+             cart_items.delete()
 
-                 order.total_amount = total
-                 order.save()
-                 cart_items.delete()
-
-                 serializer = OrderSerializer(order)
-                 return Response(serializer.data,status=status.HTTP_201_CREATED)
+             serializer = OrderSerializer(order)
+             return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
 
